@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*
+	{
+		margin:0;
+		padding:0;
+		list-style:none;
+	}
+	ul
+	{
+		width:300px;
+		padding:10px;
+		border:1px solid #ccc;
+		overflow:hidden;
+		height:500px;
+		float:left;
+		margin:10px;
+	}
+	li
+	{
+		width:100%;
+		height:30px;
+		margin:5px 0;
+		border:1px solid blue;
+		text-align: center;
+		line-height: 30px;
+		float:left;
+	}
+	</style>
+</head>
+<body>
+	<ul id="ul1">
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+	</ul>
+	<ul id="ul2">
+		
+	</ul>
+	<script>
+	window.onload=function(){
+		var aLi;
+		var oUl1;
+		var oUl2;
+
+		oUl1 = document.getElementById('ul1');
+		oUl2 = document.getElementById('ul2');
+		aLi  = oUl1.children;
+
+		for(var i=0,len=aLi.length; i<len; i++){
+			aLi[i].setAttribute('draggable',true);
+			aLi[i].className = 'drag_li'+i;
+			aLi[i].ondragstart = function(ev){
+				ev.dataTransfer.setData('Index',ev.target.className);
+			};
+		}
+
+		oUl1.ondragover = oUl2.ondragover = function(ev){
+			ev.preventDefault();
+		};
+
+		oUl1.ondrop = oUl2.ondrop = function(ev){
+			ev.preventDefault();
+			var data = ev.dataTransfer.getData('Index');
+			var oLi = document.getElementsByClassName(data)[0];
+			var form = ev.fromElement||ev.relatedTarget;
+			if(this.contains(form))return;
+			ev.target.appendChild(oLi);
+		};
+	};
+	</script>
+</body>
+</html>

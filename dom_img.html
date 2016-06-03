@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	#div1,#div2
+	{
+		float:left;
+		width:150px;
+		height:100px;
+		margin:10px;
+		padding:10px;
+		border:1px solid #aaa;
+	}
+	</style>
+</head>
+<body>
+	<div id="div1">
+		<img src="20160519062336775.jpg" draggable="true" id="drag1" width="150" height="100" alt="">
+	</div>
+	<div id="div2"></div>
+	<script>
+	window.onload=function(){
+		var oImg;
+		var oDiv1;
+		var oDiv2;
+
+		oImg = document.getElementById('drag1');
+		oImg.ondragstart= function(ev){
+			ev.dataTransfer.setData('Img',ev.target.id);
+		};
+
+		oDiv1 = document.getElementById('div1');
+		oDiv2 = document.getElementById('div2');
+		oDiv1.ondragover = oDiv2.ondragover = function(ev){
+			ev.preventDefault();
+		};
+		oDiv1.ondrop = oDiv2.ondrop = function(ev){
+			var data = ev.dataTransfer.getData('Img');
+			var img = document.getElementById(data);
+			ev.target.appendChild(img);
+		};
+
+	};
+	</script>
+</body>
+</html>
